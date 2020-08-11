@@ -1,0 +1,2 @@
+export const LOCALE_CONFIG_TOKEN = Symbol('LOCALE_CONFIG');
+export const LOCALE_SERVICE_TOKEN = Symbol('LOCALE_SERVICE');
