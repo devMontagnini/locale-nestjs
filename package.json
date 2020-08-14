@@ -1,6 +1,6 @@
 {
   "name": "locale-nestjs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Locale module for NestJs",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -15,7 +15,10 @@
     "type": "git",
     "url": "git+https://github.com/devMontagnini/locale-nestjs.git"
   },
-  "keywords": ["nestjs", "locale"],
+  "keywords": [
+    "nestjs",
+    "locale"
+  ],
   "author": "André Montagnini",
   "license": "ISC",
   "bugs": {
