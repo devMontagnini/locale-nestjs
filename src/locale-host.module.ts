@@ -4,32 +4,37 @@ import { LocaleService } from "./locale.service";
 import { LocaleFileService } from "./locale.file.service";
 import { LocaleConfig } from "./locale.config";
 import { LocaleConfigAsync } from "./locale.config.async";
-import { LOCALE_CONFIG_TOKEN, LOCALE_SERVICE_TOKEN } from "./constants";
+import { LOCALE_CONFIG_TOKEN, LOCALE_SERVICE_TOKEN, LOCALE_SERVICE_FILE_TOKEN } from "./constants";
 
 @Global()
 @Module({
   providers: [
-    LocaleFileService,
     {
-      provide: LOCALE_CONFIG_TOKEN,
-      useValue: { 
-        dictionaryPath: './dictionaries', 
-        defaultLocale: LocaleEnum.en 
-      }
+      provide: LOCALE_SERVICE_FILE_TOKEN,
+      useFactory: (config: LocaleConfig) => {
+        return new LocaleFileService(config.dictionaryPath);
+      },
+      inject: [LOCALE_CONFIG_TOKEN],
     },
     {
       provide: LOCALE_SERVICE_TOKEN,
       useClass: LocaleService,
     }
   ],
-  exports: [LocaleService]
+  exports: [LOCALE_SERVICE_TOKEN]
 })
 export class LocaleHostModule {
 
+  private static defaultConfig: LocaleConfig = {
+    dictionaryPath: './src/dictionaries', 
+    defaultLocale: LocaleEnum.en 
+  }
+
   static forRoot(config?: LocaleConfig): DynamicModule {
+    config = config || LocaleHostModule.defaultConfig;
     return {
       module: LocaleHostModule,
-      providers: !config ? [] : [{
+      providers: [{
         provide: LOCALE_CONFIG_TOKEN,
         useValue: config,
       }]
@@ -40,10 +45,10 @@ export class LocaleHostModule {
     return {
       module: LocaleHostModule,
       imports: config?.imports,
-      providers: !config ? [] : [{
+      providers: [{
         provide: LOCALE_CONFIG_TOKEN,
-        useFactory: config.useFactory,
-        inject: config.inject,
+        useFactory: config ? config.useFactory : () => LocaleHostModule.defaultConfig,
+        inject: config?.inject,
       }]
     }
   }

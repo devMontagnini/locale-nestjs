@@ -1,8 +1,10 @@
-import { Injectable, OnModuleInit } from "@nestjs/common";
+import { Injectable, OnModuleInit, Inject } from "@nestjs/common";
 import { LocaleConfig } from "./locale.config";
 import { LocaleDicionary } from "./locale.dictionary";
 import { LocaleEnum } from "./locale.enum";
 import { LocaleFileService } from "./locale.file.service";
+import { LOCALE_CONFIG_TOKEN, LOCALE_SERVICE_FILE_TOKEN } from "./constants";
+import { LocaleError } from "./locale.error";
 
 @Injectable()
 export class LocaleService implements OnModuleInit {
@@ -11,14 +13,16 @@ export class LocaleService implements OnModuleInit {
   private dictionaries: LocaleDicionary[] = [];
 
   constructor(
+    @Inject(LOCALE_CONFIG_TOKEN) 
     private readonly config: LocaleConfig,
+    @Inject(LOCALE_SERVICE_FILE_TOKEN) 
     private readonly fileService: LocaleFileService,
   ) { }
 
   async onModuleInit(): Promise<void> {
     this.dictionaries = await this.fileService.getDictionaries();
     if (!this.dictionaries.some(c => c.locale === this.config.defaultLocale)) {
-      throw new Error(
+      LocaleError.print(
         `Dictionary not found for default locale: ${this.config.defaultLocale}`
       );
     }

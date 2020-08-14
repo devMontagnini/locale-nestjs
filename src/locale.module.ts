@@ -1,6 +1,6 @@
 import { Module, DynamicModule } from "@nestjs/common";
 import { LocaleService } from "./locale.service";
-import { LocaleInterceptor } from "./locale.interception";
+import { LocaleInterceptor } from "./locale.interceptor";
 import { LocaleConfig } from "./locale.config";
 import { LocaleConfigAsync } from "./locale.config.async";
 import { LocaleHostModule } from "./locale-host.module";
