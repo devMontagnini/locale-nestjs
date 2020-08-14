@@ -44,8 +44,7 @@ export class LocaleService implements OnModuleInit {
         }
       }
     }
-    if (closerLanguage)
-      this.definedLocale = closerLanguage;
+    this.definedLocale = closerLanguage || this.config.defaultLocale;
   }
 
   translate(messageCode: string, params?: { [paramKey: string]: string }): string {
