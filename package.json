@@ -15,7 +15,7 @@
     "type": "git",
     "url": "git+https://github.com/devMontagnini/locale-nestjs.git"
   },
-  "keywords": [],
+  "keywords": ["nestjs", "locale"],
   "author": "André Montagnini",
   "license": "ISC",
   "bugs": {
